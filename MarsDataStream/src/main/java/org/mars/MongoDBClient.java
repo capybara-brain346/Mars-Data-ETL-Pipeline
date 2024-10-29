@@ -3,36 +3,66 @@ package org.mars;
 import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class MongoDBClient {
-    public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.load();
-        String dbUsername = dotenv.get("DB_USERNAME");
-        String dbPassowrd = dotenv.get("DB_PASSWORD");
-        String connectionString = "mongodb+srv://" + dbUsername + ":" + dbPassowrd + "@marsdata.0zjvm.mongodb.net/?retryWrites=true&w=majority&appName=MarsData";
+    private static final Logger logger = Logger.getLogger(MongoDBClient.class.getName());
 
-        ServerApi serverApi = ServerApi.builder()
-                .version(ServerApiVersion.V1)
-                .build();
+    private final Dotenv dotenv = Dotenv.load();
+    private final String dbUsername = dotenv.get("DB_USERNAME");
+    private final String dbPassword = dotenv.get("DB_PASSWORD");
+    private final String dbURI = dotenv.get("DB_URI");
+    private final String connectionString = "mongodb+srv://" + dbUsername + ":" + dbPassword + dbURI;
 
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(connectionString))
-                .serverApi(serverApi)
-                .build();
+    private final ServerApi serverApi = ServerApi.builder()
+            .version(ServerApiVersion.V1)
+            .build();
+    private final MongoClientSettings settings = MongoClientSettings.builder()
+            .applyConnectionString(new ConnectionString(connectionString))
+            .serverApi(serverApi)
+            .build();
 
-        // Create a new client and connect to the server
-        try (MongoClient mongoClient = MongoClients.create(settings)) {
+    private MongoCollection<Document> connectToMongoCollection() {
+        try (MongoClient mongoClient = MongoClients.create(this.settings)) {
             try {
-                // Send a ping to confirm a successful connection
                 MongoDatabase database = mongoClient.getDatabase("MarsDB");
-                database.runCommand(new Document("ping", 1));
-                System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
+                logger.info("Connected to WeatherData collection.");
+                MongoCollection<Document> collection = database.getCollection("WeatherData");
+                logger.info("Connected to WeatherData collection.");
+                return collection;
             } catch (MongoException e) {
-                e.printStackTrace();
+                logger.severe("An exception has occurred: " + e);
             }
+        }
+        return null;
+    }
+
+    public void insertToMongoColletion(JSONArray responseArray) {
+        logger.info("Converting response to documents.");
+
+        List<Document> documents = new ArrayList<>();
+        for (int i = 0; i < responseArray.length(); i++) {
+            JSONObject responseObject = responseArray.getJSONObject(i);
+            Document document = Document.parse(responseObject.toString());
+            documents.add(document);
+        }
+
+        MongoCollection<Document> collection = this.connectToMongoCollection();
+        assert collection != null;
+        try {
+            logger.info("Inserting documents.");
+            collection.insertMany(documents);
+        } catch (MongoException e) {
+            logger.severe("An exception has occurred: " + e);
         }
     }
 }
