@@ -30,23 +30,23 @@ public class MongoDBClient {
             .applyConnectionString(new ConnectionString(connectionString))
             .serverApi(serverApi)
             .build();
+    public MongoClient mongoClient = MongoClients.create(this.settings);
 
     private MongoCollection<Document> connectToMongoCollection() {
-        try (MongoClient mongoClient = MongoClients.create(this.settings)) {
-            try {
-                MongoDatabase database = mongoClient.getDatabase("MarsDB");
-                logger.info("Connected to WeatherData collection.");
-                MongoCollection<Document> collection = database.getCollection("WeatherData");
-                logger.info("Connected to WeatherData collection.");
-                return collection;
-            } catch (MongoException e) {
-                logger.severe("An exception has occurred: " + e);
-            }
+        try {
+            MongoDatabase database = this.mongoClient.getDatabase("MarsDB");
+            logger.info("Connected to WeatherData collection.");
+            MongoCollection<Document> collection = database.getCollection("WeatherData");
+            logger.info("Connected to WeatherData collection.");
+            return collection;
+        } catch (MongoException e) {
+            logger.severe("An exception has occurred: " + e);
         }
+
         return null;
     }
 
-    public void insertToMongoColletion(JSONArray responseArray) {
+    public void insertToMongoCollection(JSONArray responseArray) {
         logger.info("Converting response to documents.");
 
         List<Document> documents = new ArrayList<>();
@@ -61,8 +61,11 @@ public class MongoDBClient {
         try {
             logger.info("Inserting documents.");
             collection.insertMany(documents);
+            this.mongoClient.close();
+
         } catch (MongoException e) {
             logger.severe("An exception has occurred: " + e);
+            this.mongoClient.close();
         }
     }
 }
