@@ -27,7 +27,7 @@ public class MongoDBClient {
             .applyConnectionString(new ConnectionString(connectionString))
             .serverApi(serverApi)
             .build();
-    public MongoClient mongoClient = MongoClients.create(this.settings);
+    private final MongoClient mongoClient = MongoClients.create(this.settings);
 
     private MongoCollection<Document> connectToMongoCollection() {
         try {

@@ -9,12 +9,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ETLPipeline" />
         <module name="MarsDataStream" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="DataStream" target="1.8" />
+      <module name="ETLPipeline" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
