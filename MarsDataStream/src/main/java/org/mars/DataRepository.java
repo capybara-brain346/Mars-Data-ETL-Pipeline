@@ -9,25 +9,25 @@ import java.sql.SQLException;
 public class DataRepository {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void insertMarsWeatherData(DataModel data) throws SQLException {
-        String sql = "INSERT INTO MarsWeatherData (id, firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, PRE, AT, HWS, WD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void insertMarsWeatherData(DataModel dataModel) throws SQLException {
+        String sql = "INSERT INTO MarsWeatherData (firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, PRE, AT, HWS, WD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, data.getId());
-            pstmt.setString(2, data.getFirstUTC());
-            pstmt.setString(3, data.getLastUTC());
-            pstmt.setInt(4, data.getMonthOrdinal());
-            pstmt.setString(5, data.getNorthernSeason());
-            pstmt.setString(6, data.getSouthernSeason());
-            pstmt.setString(7, data.getSeason());
-            pstmt.setString(8, data.getPRE());
-            pstmt.setString(9, data.getAT());
-            pstmt.setString(10, data.getHWS());
-            pstmt.setString(11, data.getWD());  // Store WD JSON string directly
 
-            pstmt.executeUpdate();
+            preparedStatement.setString(1, dataModel.getFirstUTC());
+            preparedStatement.setString(2, dataModel.getLastUTC());
+            preparedStatement.setInt(3, dataModel.getMonthOrdinal());
+            preparedStatement.setString(4, dataModel.getNorthernSeason());
+            preparedStatement.setString(5, dataModel.getSouthernSeason());
+            preparedStatement.setString(6, dataModel.getSeason());
+            preparedStatement.setString(7, dataModel.getPRE());
+            preparedStatement.setString(8, dataModel.getAT());
+            preparedStatement.setString(9, dataModel.getHWS());
+            preparedStatement.setString(10, dataModel.getWD());  // Store WD JSON string directly
+
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

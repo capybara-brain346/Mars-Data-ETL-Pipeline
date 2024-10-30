@@ -2,58 +2,30 @@ package org.mars;
 
 public class DataModel {
     private String firstUTC;
-    private String lastUTC;
-    private int monthOrdinal;
-    private String northernSeason;
-    private String southernSeason;
-    private String season;
     private String PRE;
     private String AT;
     private String HWS;
+    private int monthOrdinal;
+    private String northernSeason;
+    private String southernSeason;
+    private String lastUTC;
+    private String season;
     private String WD;
-    private String id;
 
-    public void setId(String id) {
-        this.id = id;
+    public DataModel() {
+
     }
 
-    public void setFirstUTC(String firstUTC) {
+    public DataModel(String firstUTC, String lastUTC, int monthOrdinal, String northernSeason, String southernSeason, String season, String PRE, String AT, String HWS, String WD) {
         this.firstUTC = firstUTC;
-    }
-
-    public void setLastUTC(String lastUTC) {
         this.lastUTC = lastUTC;
-    }
-
-    public void setMonthOrdinal(int monthOrdinal) {
         this.monthOrdinal = monthOrdinal;
-    }
-
-    public void setNorthernSeason(String northernSeason) {
         this.northernSeason = northernSeason;
-    }
-
-    public void setSouthernSeason(String southernSeason) {
         this.southernSeason = southernSeason;
-    }
-
-    public void setSeason(String season) {
         this.season = season;
-    }
-
-    public void setPRE(String PRE) {
         this.PRE = PRE;
-    }
-
-    public void setHWS(String HWS) {
-        this.HWS = HWS;
-    }
-
-    public void setAT(String AT) {
         this.AT = AT;
-    }
-
-    public void setWD(String WD) {
+        this.HWS = HWS;
         this.WD = WD;
     }
 
@@ -61,9 +33,6 @@ public class DataModel {
         return firstUTC;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public String getLastUTC() {
         return lastUTC;

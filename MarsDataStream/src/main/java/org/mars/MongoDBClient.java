@@ -66,7 +66,7 @@ public class MongoDBClient {
         }
     }
 
-    public void retrieveDocuments() {
+    public FindIterable<Document> retrieveDocuments() {
         logger.info("Retrieving all documents.");
         MongoCollection<Document> collection = this.connectToMongoCollection();
         assert collection != null;
@@ -74,5 +74,6 @@ public class MongoDBClient {
         for (Document d : iterDocuments) {
             System.out.println(d.toJson());
         }
+        return iterDocuments;
     }
 }
