@@ -15,7 +15,7 @@ public class DateUtil {
             Date date = utcFormat.parse(utcDate);
 
             SimpleDateFormat mysqlFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mysqlFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure we keep it in UTC format
+            mysqlFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
             return mysqlFormat.format(date);
         } catch (ParseException e) {

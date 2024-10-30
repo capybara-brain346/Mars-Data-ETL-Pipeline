@@ -1,13 +1,10 @@
 package org.mars;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DataRepository {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public void insertMarsWeatherData(DataModel dataModel) throws SQLException {
         String sql = "INSERT INTO MarsWeatherData (firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, PRE, AT, HWS, WD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
