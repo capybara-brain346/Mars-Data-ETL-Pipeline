@@ -27,7 +27,5 @@ public class Main {
         MongoDBClient mongoDBClient = new MongoDBClient();
         sendDataToMongoDB(getAPI, mongoDBClient);
         retrieveDataFromMongoDB(getAPI, mongoDBClient);
-
-
     }
 }
