@@ -9,15 +9,18 @@
       <option name="ignoredModules">
         <list>
           <option value="MarsDataStream" />
+          <option value="MarsDataStream" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="com.squareup.okio:okio:1.6.0" />
+          <option value="com.google.protobuf:protobuf-java:3.11.4" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
       </option>
