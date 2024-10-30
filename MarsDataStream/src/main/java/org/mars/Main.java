@@ -17,7 +17,7 @@ public class Main {
         mongoDBClient.insertToMongoCollection(responseArray);
     }
 
-    private static void retrieveDataFromMongoDB(GetAPI getAPI, MongoDBClient mongoDBClient) {
+    private static void retrieveDataFromMongoDB(MongoDBClient mongoDBClient) {
         mongoDBClient.retrieveDocuments();
     }
 
@@ -26,6 +26,6 @@ public class Main {
         GetAPI getAPI = new GetAPI();
         MongoDBClient mongoDBClient = new MongoDBClient();
         sendDataToMongoDB(getAPI, mongoDBClient);
-        retrieveDataFromMongoDB(getAPI, mongoDBClient);
+        retrieveDataFromMongoDB(mongoDBClient);
     }
 }
