@@ -4,15 +4,11 @@ import com.mongodb.*;
 import com.mongodb.client.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
-public class MongoDBClient {
-    private static final Logger logger = Logger.getLogger(MongoDBClient.class.getName());
+public class Extract {
+    private static final Logger logger = Logger.getLogger(Extract.class.getName());
 
     private final Dotenv dotenv = Dotenv.load();
     private final String dbUsername = dotenv.get("DB_USERNAME");
@@ -41,29 +37,6 @@ public class MongoDBClient {
         }
 
         return null;
-    }
-
-    public void insertToMongoCollection(JSONArray responseArray) {
-        logger.info("Converting response to documents.");
-
-        List<Document> documents = new ArrayList<>();
-        for (int i = 0; i < responseArray.length(); i++) {
-            JSONObject responseObject = responseArray.getJSONObject(i);
-            Document document = Document.parse(responseObject.toString());
-            documents.add(document);
-        }
-
-        MongoCollection<Document> collection = this.connectToMongoCollection();
-        assert collection != null;
-        try {
-            logger.info("Inserting documents.");
-            collection.insertMany(documents);
-            this.mongoClient.close();
-
-        } catch (MongoException e) {
-            logger.severe("An exception has occurred: " + e);
-            this.mongoClient.close();
-        }
     }
 
     public void retrieveDocuments() {

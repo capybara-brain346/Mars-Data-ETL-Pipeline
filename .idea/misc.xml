@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/DataStream/pom.xml" />
         <option value="$PROJECT_DIR$/MarsDataStream/pom.xml" />
+        <option value="$PROJECT_DIR$/ETLPipeline/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
