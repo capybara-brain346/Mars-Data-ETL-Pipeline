@@ -22,5 +22,4 @@ public class Extract {
         MongoUtils mongoDBClient = new MongoUtils();
         sendDataToMongoDB(getAPI, mongoDBClient);
     }
-
 }
