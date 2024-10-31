@@ -13,7 +13,7 @@ ENV AIRFLOW_HOME=/usr/local/airflow
 
 RUN pip install -r $AIRFLOW_HOME/dags/requirements.txt
 
-COPY path/to/your/file.jar /usr/local/airflow/file.jar
+COPY ../MarsDataStream/target/MarsDataStream-1.0-SNAPSHOT.jar /usr/local/airflow/file.jar
 
 ENTRYPOINT ["airflow"]
 
