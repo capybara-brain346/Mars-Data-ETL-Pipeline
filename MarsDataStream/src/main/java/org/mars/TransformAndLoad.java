@@ -1,8 +1,6 @@
 package org.mars;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mongodb.client.FindIterable;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
 import org.json.JSONObject;
 
@@ -10,11 +8,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class TransformAndLoad {
-    private static final Dotenv dotenv = Dotenv.load();
     private static final DataRepository dataRepository = new DataRepository();
 
 
-    private static void retrieveDataFromMongoDB(MongoUtils mongoDBClient) throws JsonProcessingException {
+    private static void retrieveDataFromMongoDB(MongoUtils mongoDBClient) {
         FindIterable<Document> documents = mongoDBClient.retrieveDocuments();
         for (Document doc : documents) {
             JSONObject value = new JSONObject(doc.toJson());
