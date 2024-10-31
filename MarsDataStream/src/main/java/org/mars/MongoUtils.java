@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class MongoDBClient {
-    private static final Logger logger = Logger.getLogger(MongoDBClient.class.getName());
+public class MongoUtils {
+    private static final Logger logger = Logger.getLogger(MongoUtils.class.getName());
 
     private final Dotenv dotenv = Dotenv.load();
     private final String dbUsername = dotenv.get("DB_USERNAME");

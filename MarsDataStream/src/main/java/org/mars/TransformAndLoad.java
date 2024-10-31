@@ -1,31 +1,20 @@
 package org.mars;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class Main {
+public class TransformAndLoad {
     private static final Dotenv dotenv = Dotenv.load();
-    private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final DataRepository dataRepository = new DataRepository();
 
-    private static void sendDataToMongoDB(GetAPI getAPI, MongoDBClient mongoDBClient) throws IOException {
-        String response = getAPI.run("https://api.nasa.gov/insight_weather/?api_key=" + dotenv.get("NASA_API_KEY") + "&feedtype=json&ver=1.0");
-        JSONArray responseArray = ParseJSON.parseResponseToJson(response);
 
-        System.out.println(responseArray);
-
-        mongoDBClient.insertToMongoCollection(responseArray);
-    }
-
-    private static void retrieveDataFromMongoDB(MongoDBClient mongoDBClient) throws JsonProcessingException {
+    private static void retrieveDataFromMongoDB(MongoUtils mongoDBClient) throws JsonProcessingException {
         FindIterable<Document> documents = mongoDBClient.retrieveDocuments();
         for (Document doc : documents) {
             JSONObject value = new JSONObject(doc.toJson());
@@ -55,9 +44,7 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        GetAPI getAPI = new GetAPI();
-        MongoDBClient mongoDBClient = new MongoDBClient();
-//        sendDataToMongoDB(getAPI, mongoDBClient);
+        MongoUtils mongoDBClient = new MongoUtils();
         retrieveDataFromMongoDB(mongoDBClient);
     }
 }
