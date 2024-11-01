@@ -1,18 +1,23 @@
 package org.mars;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class TransformAndLoad {
     private static final DataRepository dataRepository = new DataRepository();
 
 
     private static void retrieveDataFromMongoDB(MongoUtils mongoDBClient) {
-        FindIterable<Document> documents = mongoDBClient.retrieveDocuments();
+        Optional<MongoCollection<Document>> collection = mongoDBClient.connectToMongoCollection();
+        assert collection.isPresent();
+
+        FindIterable<Document> documents = mongoDBClient.retrieveDocuments(collection.get());
         for (Document doc : documents) {
             JSONObject value = new JSONObject(doc.toJson());
             value.remove("_id");

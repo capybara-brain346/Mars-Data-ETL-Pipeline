@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class MongoUtils {
@@ -29,32 +30,30 @@ public class MongoUtils {
             .build();
     private final MongoClient mongoClient = MongoClients.create(this.settings);
 
-    private MongoCollection<Document> connectToMongoCollection() {
+    public Optional<MongoCollection<Document>> connectToMongoCollection() {
         try {
             MongoDatabase database = this.mongoClient.getDatabase("MarsDB");
             logger.info("Connected to WeatherData collection.");
             MongoCollection<Document> collection = database.getCollection("WeatherData");
             logger.info("Connected to WeatherData collection.");
-            return collection;
+            return Optional.of(collection);
         } catch (MongoException e) {
             logger.severe("An exception has occurred: " + e);
         }
-
-        return null;
+        return Optional.empty();
     }
 
-    public void insertToMongoCollection(JSONArray responseArray) {
+    public void insertToMongoCollection(MongoCollection<Document> collection, JSONArray responseArray) {
         logger.info("Converting response to documents.");
 
         List<Document> documents = new ArrayList<>();
+
         for (int i = 0; i < responseArray.length(); i++) {
             JSONObject responseObject = responseArray.getJSONObject(i);
             Document document = Document.parse(responseObject.toString());
             documents.add(document);
         }
 
-        MongoCollection<Document> collection = this.connectToMongoCollection();
-        assert collection != null;
         try {
             logger.info("Inserting documents.");
             collection.insertMany(documents);
@@ -66,10 +65,8 @@ public class MongoUtils {
         }
     }
 
-    public FindIterable<Document> retrieveDocuments() {
+    public FindIterable<Document> retrieveDocuments(MongoCollection<Document> collection) {
         logger.info("Retrieving all documents.");
-        MongoCollection<Document> collection = this.connectToMongoCollection();
-        assert collection != null;
         FindIterable<Document> iterDocuments = collection.find();
         for (Document d : iterDocuments) {
             System.out.println(d.toJson());
