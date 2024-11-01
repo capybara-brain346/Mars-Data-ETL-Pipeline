@@ -35,7 +35,7 @@ public class Server {
                     }
 
                     while ((line = bufferedReader.readLine()) != null) {
-                        requestBody.append(line).append("\n"); // Append body line
+                        requestBody.append(line).append("\n"); 
                     }
 
                     System.out.println("Headers:");
@@ -48,13 +48,12 @@ public class Server {
 
                     String httpResponse = getHttpResponse();
 
-                    // Send the response
                     bufferedWriter.write(httpResponse);
                     bufferedWriter.flush();
                 } catch (IOException e) {
                     System.out.println("Error handling client request: " + e.getMessage());
                 } finally {
-                    socket.close(); // Close the socket to free resources
+                    socket.close(); 
                 }
             }
         } catch (Exception e) {
@@ -66,7 +65,6 @@ public class Server {
         String jsonResponse = "{\"message\": \"Attributes received!\"}";
         int contentLength = jsonResponse.length();
 
-        // Prepare HTTP response
         String httpResponse = "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: application/json\r\n"
                 + "Content-Length: " + contentLength + "\r\n"

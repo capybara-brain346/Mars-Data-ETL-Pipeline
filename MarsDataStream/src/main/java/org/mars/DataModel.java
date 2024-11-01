@@ -6,15 +6,15 @@ import java.util.Map;
 
 public class DataModel {
     private String firstUTC;
-    private String PRE;
-    private String AT;
-    private String HWS;
+    private String pre;
+    private String at;
+    private String hws;
     private int monthOrdinal;
     private String northernSeason;
     private String southernSeason;
     private String lastUTC;
     private String season;
-    private String WD;
+    private String wd;
     public Map<String, String> attributeMap;
 
     public DataModel() {
@@ -28,10 +28,10 @@ public class DataModel {
         this.northernSeason = northernSeason;
         this.southernSeason = southernSeason;
         this.season = season;
-        this.PRE = PRE;
-        this.AT = AT;
-        this.HWS = HWS;
-        this.WD = WD;
+        this.pre = pre;
+        this.at = at;
+        this.hws = hws;
+        this.wd = wd;
 
         this.attributeMap = new HashMap<>();
         this.attributeMap.put("First_UTC", this.firstUTC);
@@ -40,10 +40,10 @@ public class DataModel {
         this.attributeMap.put("Northern_season", this.northernSeason);
         this.attributeMap.put("Southern_season", this.southernSeason);
         this.attributeMap.put("Season", this.season);
-        this.attributeMap.put("PRE", this.PRE);
-        this.attributeMap.put("AT", this.AT);
-        this.attributeMap.put("HWS", this.HWS);
-        this.attributeMap.put("WD", this.WD);
+        this.attributeMap.put("pre", this.pre);
+        this.attributeMap.put("at", this.at);
+        this.attributeMap.put("hws", this.hws);
+        this.attributeMap.put("wd", this.wd);
     }
 
     public Map<String, String> getSubset(List<String> attributes) {
@@ -76,19 +76,19 @@ public class DataModel {
     }
 
     public String getPRE() {
-        return PRE;
+        return pre;
     }
 
     public String getAT() {
-        return AT;
+        return at;
     }
 
     public String getHWS() {
-        return HWS;
+        return hws;
     }
 
     public String getWD() {
-        return WD;
+        return wd;
     }
 
 }
