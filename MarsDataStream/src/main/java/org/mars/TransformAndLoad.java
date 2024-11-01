@@ -5,8 +5,10 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class TransformAndLoad {
@@ -34,9 +36,9 @@ public class TransformAndLoad {
             String wdJson = value.getJSONObject("WD").toString();
 
             DataModel dataModel = new DataModel(firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, preJson, atJson, hwsJson, wdJson);
-
+            List<String> attributes = new ArrayList<>(Arrays.asList("First_UTC","Last_UTC"));
             try {
-                dataRepository.insertMarsWeatherData(dataModel);
+                dataRepository.insertMarsWeatherData(dataModel, attributes);
                 System.out.println("Mars weather data inserted successfully.");
             } catch (SQLException e) {
                 System.err.println("Failed to insert Mars weather data: " + e.getMessage());
@@ -45,7 +47,7 @@ public class TransformAndLoad {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         MongoUtils mongoDBClient = new MongoUtils();
         retrieveDataFromMongoDB(mongoDBClient);
     }

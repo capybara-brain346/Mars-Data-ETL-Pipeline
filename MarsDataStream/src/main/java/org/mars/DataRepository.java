@@ -3,11 +3,21 @@ package org.mars;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class DataRepository {
 
-    public void insertMarsWeatherData(DataModel dataModel) throws SQLException {
-        String sql = "INSERT INTO MarsWeatherData (firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, PRE, AT, HWS, WD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void insertMarsWeatherData(DataModel dataModel, List<String> attributes) throws SQLException {
+        String localDateTime = LocalDateTime.now().toString();
+
+//        TODO Write different logic for this (horrible practise), keep this as a temporary workaround for now!!!!
+        StringBuilder attributesSql = new StringBuilder();
+        StringBuilder parameters = new StringBuilder();
+        attributes.forEach(n -> attributesSql.append(n).append(", "));
+        parameters.append("?, ".repeat(attributes.size()));
+
+        String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", localDateTime, attributesSql, parameters);
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
