@@ -19,35 +19,61 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("Connected to " + socket.getRemoteSocketAddress());
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                try (
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
+                ) {
+                    List<String> requestHeaders = new ArrayList<>();
+                    StringBuilder requestBody = new StringBuilder();
+                    String line;
 
-                List<String> request = new ArrayList<>();
-                String line;
-                while (!(line = bufferedReader.readLine()).isEmpty()) {
-                    request.add(line);
+                    while ((line = bufferedReader.readLine()) != null) {
+                        if (line.isEmpty()) {
+                            break;
+                        }
+                        requestHeaders.add(line);
+                    }
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        requestBody.append(line).append("\n"); // Append body line
+                    }
+
+                    System.out.println("Headers:");
+                    for (String header : requestHeaders) {
+                        System.out.println(header);
+                    }
+
+                    System.out.println("Body:");
+                    System.out.println(requestBody.toString().trim());
+
+                    String httpResponse = getHttpResponse();
+
+                    // Send the response
+                    bufferedWriter.write(httpResponse);
+                    bufferedWriter.flush();
+                } catch (IOException e) {
+                    System.out.println("Error handling client request: " + e.getMessage());
+                } finally {
+                    socket.close(); // Close the socket to free resources
                 }
-
-                System.out.println("Here" + request);
-
-                String jsonResponse = "{\"message\": \"Hello, Client!\"}";
-                int contentLength = jsonResponse.length();
-
-                String httpResponse = "HTTP/1.1 200 OK\r\n"
-                        + "Content-Type: application/json\r\n"
-                        + "Content-Length: " + contentLength + "\r\n"
-                        + "Connection: close\r\n"
-                        + "\r\n"
-                        + jsonResponse;
-
-
-                bufferedWriter.write(httpResponse);
-                bufferedWriter.flush();
             }
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String getHttpResponse() {
+        String jsonResponse = "{\"message\": \"Attributes received!\"}";
+        int contentLength = jsonResponse.length();
+
+        // Prepare HTTP response
+        String httpResponse = "HTTP/1.1 200 OK\r\n"
+                + "Content-Type: application/json\r\n"
+                + "Content-Length: " + contentLength + "\r\n"
+                + "Connection: close\r\n"
+                + "\r\n"
+                + jsonResponse;
+        return httpResponse;
     }
 
     private void closeServer() {
