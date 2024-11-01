@@ -1,5 +1,9 @@
 package org.mars;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class DataModel {
     private String firstUTC;
     private String PRE;
@@ -11,6 +15,7 @@ public class DataModel {
     private String lastUTC;
     private String season;
     private String WD;
+    public Map<String, String> attributeMap;
 
     public DataModel() {
 
@@ -27,6 +32,22 @@ public class DataModel {
         this.AT = AT;
         this.HWS = HWS;
         this.WD = WD;
+
+        this.attributeMap = new HashMap<>();
+        this.attributeMap.put("First_UTC", this.firstUTC);
+        this.attributeMap.put("Last_UTC", this.lastUTC);
+        this.attributeMap.put("Month_ordinal", String.valueOf(this.monthOrdinal));
+        this.attributeMap.put("Northern_season", this.northernSeason);
+        this.attributeMap.put("Southern_season", this.southernSeason);
+        this.attributeMap.put("Season", this.season);
+        this.attributeMap.put("PRE", this.PRE);
+        this.attributeMap.put("AT", this.AT);
+        this.attributeMap.put("HWS", this.HWS);
+        this.attributeMap.put("WD", this.WD);
+    }
+
+    public Map<String, String> getSubset(List<String> attributes) {
+        return this.attributeMap;
     }
 
     public String getFirstUTC() {

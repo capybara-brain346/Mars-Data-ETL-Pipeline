@@ -14,8 +14,10 @@ public class DataRepository {
 //        TODO Write different logic for this (horrible practise), keep this as a temporary workaround for now!!!!
         StringBuilder attributesSql = new StringBuilder();
         StringBuilder parameters = new StringBuilder();
-        attributes.forEach(n -> attributesSql.append(n).append(", "));
-        parameters.append("?, ".repeat(attributes.size()));
+        for (String attribute : attributes) {
+            attributesSql.append(attribute).append(", ");
+            parameters.append("?, ");
+        }
 
         String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", localDateTime, attributesSql, parameters);
 
