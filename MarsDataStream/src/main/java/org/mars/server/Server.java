@@ -27,6 +27,7 @@ public class Server {
                     StringBuilder requestBody = new StringBuilder();
                     String line;
 
+                    // TODO Needs to be fixed! Somehow leads to an infinite loop blocking the acknowledgement from the server
                     while ((line = bufferedReader.readLine()) != null) {
                         if (line.isEmpty()) {
                             break;
