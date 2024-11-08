@@ -67,10 +67,6 @@ public class MongoUtils {
 
     public FindIterable<Document> retrieveDocuments(MongoCollection<Document> collection) {
         logger.info("Retrieving all documents.");
-        FindIterable<Document> iterDocuments = collection.find();
-        for (Document d : iterDocuments) {
-            System.out.println(d.toJson());
-        }
-        return iterDocuments;
+        return collection.find();
     }
 }

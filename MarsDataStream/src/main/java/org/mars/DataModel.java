@@ -21,7 +21,7 @@ public class DataModel {
 
     }
 
-    public DataModel(String firstUTC, String lastUTC, int monthOrdinal, String northernSeason, String southernSeason, String season, String PRE, String AT, String HWS, String WD) {
+    public DataModel(String firstUTC, String lastUTC, int monthOrdinal, String northernSeason, String southernSeason, String season, String pre, String at, String hws, String wd) {
         this.firstUTC = firstUTC;
         this.lastUTC = lastUTC;
         this.monthOrdinal = monthOrdinal;

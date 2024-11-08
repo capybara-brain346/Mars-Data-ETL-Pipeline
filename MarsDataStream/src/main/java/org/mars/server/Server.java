@@ -17,12 +17,12 @@ public class Server {
         try {
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
-                System.out.println("Connected to " + socket.getRemoteSocketAddress());
 
-                try (
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
+                try (socket;
+                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
                 ) {
+                    System.out.println("Connected to " + socket.getRemoteSocketAddress());
                     List<String> requestHeaders = new ArrayList<>();
                     StringBuilder requestBody = new StringBuilder();
                     String line;
@@ -36,7 +36,7 @@ public class Server {
                     }
 
                     while ((line = bufferedReader.readLine()) != null) {
-                        requestBody.append(line).append("\n"); 
+                        requestBody.append(line).append("\n");
                     }
 
                     System.out.println("Headers:");
@@ -53,8 +53,6 @@ public class Server {
                     bufferedWriter.flush();
                 } catch (IOException e) {
                     System.out.println("Error handling client request: " + e.getMessage());
-                } finally {
-                    socket.close(); 
                 }
             }
         } catch (Exception e) {
@@ -66,13 +64,12 @@ public class Server {
         String jsonResponse = "{\"message\": \"Attributes received!\"}";
         int contentLength = jsonResponse.length();
 
-        String httpResponse = "HTTP/1.1 200 OK\r\n"
+        return "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: application/json\r\n"
                 + "Content-Length: " + contentLength + "\r\n"
                 + "Connection: close\r\n"
                 + "\r\n"
                 + jsonResponse;
-        return httpResponse;
     }
 
     private void closeServer() {

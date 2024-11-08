@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class TransformAndLoad {
-    private static final DataRepository dataRepository = new DataRepository();
 
-
-    private static void retrieveDataFromMongoDB(MongoUtils mongoDBClient) {
+    private static List<DataModel> retrieveDataFromMongoDB(MongoUtils mongoDBClient) {
+        List<DataModel> dataModelList = new ArrayList<>();
         Optional<MongoCollection<Document>> collection = mongoDBClient.connectToMongoCollection();
         assert collection.isPresent();
 
@@ -36,19 +35,19 @@ public class TransformAndLoad {
             String wdJson = value.getJSONObject("WD").toString();
 
             DataModel dataModel = new DataModel(firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, preJson, atJson, hwsJson, wdJson);
-            List<String> attributes = new ArrayList<>(Arrays.asList("First_UTC","Last_UTC"));
-            try {
-                dataRepository.insertMarsWeatherData(dataModel, attributes);
-                System.out.println("Mars weather data inserted successfully.");
-            } catch (SQLException e) {
-                System.err.println("Failed to insert Mars weather data: " + e.getMessage());
-            }
+            dataModelList.add(dataModel);
+
         }
+        return dataModelList;
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         MongoUtils mongoDBClient = new MongoUtils();
-        retrieveDataFromMongoDB(mongoDBClient);
+        DataRepository dataRepository = new DataRepository();
+
+        List<DataModel> dataModelList = retrieveDataFromMongoDB(mongoDBClient);
+        dataRepository.insertMarsWeatherData(dataModelList);
+
     }
 }
