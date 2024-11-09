@@ -1,2 +1,2 @@
 apache-airflow
-azure-storage-blob==12.8.1
+azure-storage-blob==12.13.0
