@@ -1,6 +1,5 @@
 from airflow.operators.bash import BashOperator
 from datetime import datetime
-
 from airflow import DAG
 
 default_args = {
@@ -17,6 +16,6 @@ dag = DAG(
 
 run_java_jar = BashOperator(
     task_id='run_java_jar_task',
-    bash_command='java -cp ../../MarsDataStream/target/MarsDataStream-1.0-SNAPSHOT.jar org.mars.Extract',
+    bash_command='java -jar /app/Extract-1.0-SNAPSHOT.jar',
     dag=dag,
 )

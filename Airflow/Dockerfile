@@ -7,13 +7,15 @@ RUN apt-get update && \
 
 RUN pip install apache-airflow
 
+RUN pip install azure-storage-blob==12.8.1
+
 COPY dags /usr/local/airflow/dags
 
 ENV AIRFLOW_HOME=/usr/local/airflow
 
 RUN pip install -r $AIRFLOW_HOME/dags/requirements.txt
 
-COPY ../MarsDataStream/target/MarsDataStream-1.0-SNAPSHOT.jar /usr/local/airflow/file.jar
+COPY extract/Extract-1.0-SNAPSHOT.jar /usr/local/airflow/file.jar
 
 ENTRYPOINT ["airflow"]
 
