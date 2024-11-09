@@ -17,13 +17,8 @@ public class MongoUtils {
     private final String dbURI = dotenv.get("DB_URI");
     private final String connectionString = "mongodb+srv://" + dbUsername + ":" + dbPassword + dbURI;
 
-    private final ServerApi serverApi = ServerApi.builder()
-            .version(ServerApiVersion.V1)
-            .build();
-    private final MongoClientSettings settings = MongoClientSettings.builder()
-            .applyConnectionString(new ConnectionString(connectionString))
-            .serverApi(serverApi)
-            .build();
+    private final ServerApi serverApi = ServerApi.builder().version(ServerApiVersion.V1).build();
+    private final MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(new ConnectionString(connectionString)).serverApi(serverApi).build();
     private final MongoClient mongoClient = MongoClients.create(this.settings);
 
     public Optional<MongoCollection<Document>> connectToMongoCollection() {

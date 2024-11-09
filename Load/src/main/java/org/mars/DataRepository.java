@@ -30,9 +30,7 @@ public class DataRepository {
 
         String sql = String.format("INSERT INTO Data_%s (firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, PRE, AT, HWS, WD) VALUES (?,?,?,?,?,?,?,?,?,?)", localDateTime);
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement createTableStatement = conn.createStatement();
-             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); Statement createTableStatement = conn.createStatement(); PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
             createTableStatement.executeUpdate(createTable);
 

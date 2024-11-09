@@ -4,14 +4,13 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.json.JSONObject;
-import org.mars.MongoUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TransformAndLoad {
+public class Load {
 
     private static List<DataModel> retrieveDataFromMongoDB(MongoUtils mongoDBClient) {
         List<DataModel> dataModelList = new ArrayList<>();

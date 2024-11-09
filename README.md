@@ -57,7 +57,7 @@ mvn clean install
 You can run the application using the following command:
 
 ```bash
-java -cp target/mars-weather-data-1.0-SNAPSHOT.jar org.mars.TransformAndLoad
+java -cp target/mars-weather-data-1.0-SNAPSHOT.jar org.mars.Load
 ```
 
 ### 5. Fetch Data from NASA API
