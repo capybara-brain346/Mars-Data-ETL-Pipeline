@@ -50,9 +50,24 @@ services:
       - "8080:8080"
     container_name: airflow_webserver
     restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
   airflow-scheduler:
     << : *airflow-common
     command: airflow scheduler
     container_name: airflow_scheduler
     restart: always
+
+  java-task:
+    image: openjdk:11
+    container_name: java_task
+    command: java -cp /path/to/your/classfile YourMainClass
+    volumes:
+      - ./your-java-project:/app
+    depends_on:
+      - airflow-webserver
+    restart: on-failure

@@ -11,16 +11,28 @@
         <list>
           <option value="MarsDataStream" />
           <option value="MarsDataStream" />
+          <option value="MarsDataStream" />
+          <option value="MarsDataStream" />
+          <option value="MarsDataStream" />
+          <option value="MarsDataStream" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="com.squareup.okio:okio:1.6.0" />
           <option value="com.google.protobuf:protobuf-java:3.11.4" />
+          <option value="com.google.guava:guava:30.0-jre" />
+          <option value="io.github.classgraph:classgraph:4.8.60" />
+          <option value="org.jetbrains.kotlin:kotlin-stdlib:1.4.0" />
+          <option value="org.jetbrains.kotlin:kotlin-stdlib:1.2.10" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="In progress" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
