@@ -15,6 +15,7 @@
           <option value="MarsDataStream" />
           <option value="MarsDataStream" />
           <option value="MarsDataStream" />
+          <option value="Extract" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -25,6 +26,7 @@
           <option value="io.github.classgraph:classgraph:4.8.60" />
           <option value="org.jetbrains.kotlin:kotlin-stdlib:1.4.0" />
           <option value="org.jetbrains.kotlin:kotlin-stdlib:1.2.10" />
+          <option value="com.squareup.okio:okio:1.6.0" />
         </list>
       </option>
       <option name="ignoredReasons">
@@ -32,6 +34,7 @@
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="In progress" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />

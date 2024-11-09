@@ -1,7 +1,10 @@
 package org.mars;
 
 import com.mongodb.*;
-import com.mongodb.client.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
 import org.json.JSONArray;
@@ -21,13 +24,8 @@ public class MongoUtils {
     private final String dbURI = dotenv.get("DB_URI");
     private final String connectionString = "mongodb+srv://" + dbUsername + ":" + dbPassword + dbURI;
 
-    private final ServerApi serverApi = ServerApi.builder()
-            .version(ServerApiVersion.V1)
-            .build();
-    private final MongoClientSettings settings = MongoClientSettings.builder()
-            .applyConnectionString(new ConnectionString(connectionString))
-            .serverApi(serverApi)
-            .build();
+    private final ServerApi serverApi = ServerApi.builder().version(ServerApiVersion.V1).build();
+    private final MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(new ConnectionString(connectionString)).serverApi(serverApi).build();
     private final MongoClient mongoClient = MongoClients.create(this.settings);
 
     public Optional<MongoCollection<Document>> connectToMongoCollection() {
@@ -65,8 +63,4 @@ public class MongoUtils {
         }
     }
 
-    public FindIterable<Document> retrieveDocuments(MongoCollection<Document> collection) {
-        logger.info("Retrieving all documents.");
-        return collection.find();
-    }
 }
