@@ -14,21 +14,21 @@ public class DataRepository {
         String localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
         String createTable = String.format("""
-                        CREATE TABLE Data_%s (
+                        CREATE TABLE WeatherData_%s (
                         id int PRIMARY KEY AUTO_INCREMENT,
-                        firstUTC DATETIME,
-                        lastUTC DATETIME,
-                        monthOrdinal INT,
-                        northernSeason VARCHAR (20),
-                                southernSeason VARCHAR(20),
+                        first_utc DATETIME,
+                        last_utc DATETIME,
+                        month_ordinal INT,
+                        northern_season VARCHAR (20),
+                                southern_season VARCHAR(20),
                                 season VARCHAR(20),
-                                PRE JSON,
-                                AT JSON,
-                                HWS JSON,
-                                WD JSON
+                                atmospheric_pressure JSON,
+                                atmospheric_temp JSON,
+                                horizontal_wind_speed JSON,
+                                wind_direction JSON
                 )""", localDateTime);
 
-        String sql = String.format("INSERT INTO Data_%s (firstUTC, lastUTC, monthOrdinal, northernSeason, southernSeason, season, PRE, AT, HWS, WD) VALUES (?,?,?,?,?,?,?,?,?,?)", localDateTime);
+        String sql = String.format("INSERT INTO WeatherData_%s (first_utc, last_utc, month_ordinal, northern_season, southern_season, season, atmospheric_pressure, atmospheric_temp, horizontal_wind_speed, wind_direction) VALUES (?,?,?,?,?,?,?,?,?,?)", localDateTime);
 
         try (Connection conn = DatabaseConnection.getConnection(); Statement createTableStatement = conn.createStatement(); PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 

@@ -16,6 +16,7 @@
           <option value="MarsDataStream" />
           <option value="MarsDataStream" />
           <option value="Extract" />
+          <option value="Load" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -27,6 +28,7 @@
           <option value="org.jetbrains.kotlin:kotlin-stdlib:1.4.0" />
           <option value="org.jetbrains.kotlin:kotlin-stdlib:1.2.10" />
           <option value="com.squareup.okio:okio:1.6.0" />
+          <option value="com.google.protobuf:protobuf-java:3.11.4" />
         </list>
       </option>
       <option name="ignoredReasons">
@@ -34,6 +36,7 @@
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="In progress" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />

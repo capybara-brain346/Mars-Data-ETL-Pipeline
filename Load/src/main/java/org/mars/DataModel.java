@@ -1,59 +1,33 @@
 package org.mars;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class DataModel {
     private String firstUTC;
-    private String pre;
-    private String at;
-    private String hws;
+    private String atmosphericPressure;
+    private String atmosphericTemperature;
+    private String horizontalWindSpeed;
     private int monthOrdinal;
     private String northernSeason;
     private String southernSeason;
     private String lastUTC;
     private String season;
-    private String wd;
-    public Map<String, String> attributeMap;
+    private String windDirection;
 
-    public DataModel() {
-
-    }
-
-    public DataModel(String firstUTC, String lastUTC, int monthOrdinal, String northernSeason, String southernSeason, String season, String pre, String at, String hws, String wd) {
+    public DataModel(String firstUTC, String lastUTC, int monthOrdinal, String northernSeason, String southernSeason, String season, String atmosphericPressure, String atmosphericTemperature, String horizontalWindSpeed, String windDirection) {
         this.firstUTC = firstUTC;
         this.lastUTC = lastUTC;
         this.monthOrdinal = monthOrdinal;
         this.northernSeason = northernSeason;
         this.southernSeason = southernSeason;
         this.season = season;
-        this.pre = pre;
-        this.at = at;
-        this.hws = hws;
-        this.wd = wd;
-
-        this.attributeMap = new HashMap<>();
-        this.attributeMap.put("First_UTC", this.firstUTC);
-        this.attributeMap.put("Last_UTC", this.lastUTC);
-        this.attributeMap.put("Month_ordinal", String.valueOf(this.monthOrdinal));
-        this.attributeMap.put("Northern_season", this.northernSeason);
-        this.attributeMap.put("Southern_season", this.southernSeason);
-        this.attributeMap.put("Season", this.season);
-        this.attributeMap.put("pre", this.pre);
-        this.attributeMap.put("at", this.at);
-        this.attributeMap.put("hws", this.hws);
-        this.attributeMap.put("wd", this.wd);
-    }
-
-    public Map<String, String> getSubset(List<String> attributes) {
-        return this.attributeMap;
+        this.atmosphericPressure = atmosphericPressure;
+        this.atmosphericTemperature = atmosphericTemperature;
+        this.horizontalWindSpeed = horizontalWindSpeed;
+        this.windDirection = windDirection;
     }
 
     public String getFirstUTC() {
         return firstUTC;
     }
-
 
     public String getLastUTC() {
         return lastUTC;
@@ -76,19 +50,19 @@ public class DataModel {
     }
 
     public String getPRE() {
-        return pre;
+        return atmosphericPressure;
     }
 
     public String getAT() {
-        return at;
+        return atmosphericTemperature;
     }
 
     public String getHWS() {
-        return hws;
+        return horizontalWindSpeed;
     }
 
     public String getWD() {
-        return wd;
+        return windDirection;
     }
 
 }
