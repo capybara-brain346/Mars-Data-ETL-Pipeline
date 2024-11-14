@@ -126,6 +126,129 @@ Add the following dependencies to your `pom.xml`:
 </dependencies>
 ```
 
+# Mars Weather Analytics Dashboard  
+
+An interactive dashboard for visualizing weather conditions on Mars. The project uses data from a MySQL database, processes JSON-formatted weather attributes, and presents insights using a Dash web application.  
+
+## Features  
+- **Visualize Trends:** Analyze pressure, temperature, and wind speed variations over time.  
+- **Interactive Visualization:** Explore relationships like temperature vs. pressure and wind direction distribution.  
+- **Custom Styling:** Dark-themed dashboard with vibrant color schemes for better readability.  
+
+## Project Components  
+
+### 1. Airflow DAG for Running a Java Task  
+This DAG runs a Java JAR file as part of an automated workflow.  
+
+```python
+from airflow.operators.bash import BashOperator
+from datetime import datetime
+from airflow import DAG
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': datetime(2024, 10, 31),
+    'retries': 1,
+}
+
+dag = DAG(
+    'run_java_jar',
+    default_args=default_args,
+    schedule_interval='@daily',
+)
+
+run_java_jar = BashOperator(
+    task_id='run_java_jar_task',
+    bash_command='java -jar /app/Extract-1.0-SNAPSHOT.jar',
+    dag=dag,
+)
+```
+
+### 2. Docker Compose Configuration  
+Sets up an Airflow environment with PostgreSQL as the backend and provisions the services required for execution.  
+
+```yaml
+version: "3"
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.0.0
+  environment:
+    - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@postgres:5432/airflow
+    - AIRFLOW__CORE__FERNET_KEY=FB0o_zt4e3Ziq3LdUUO7F2Z95cvFFx16hU8jTeR1ASM=
+    - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    - AIRFLOW__CORE__LOGGING_LEVEL=INFO
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./airflow-data/logs:/opt/airflow/logs
+    - ./airflow-data/plugins:/opt/airflow/plugins
+  depends_on:
+    - postgres
+
+services:
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  airflow-init:
+    <<: *airflow-common
+    container_name: airflow_init
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db init &&
+        airflow users create \
+          --role Admin \
+          --username airflow \
+          --password airflow \
+          --email airflow@airflow.com \
+          --firstname airflow \
+          --lastname airflow
+    restart: "no"
+    depends_on:
+      - postgres
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: airflow webserver
+    ports:
+      - "8081:8080"
+    container_name: airflow_webserver
+    restart: always
+    depends_on:
+      - postgres
+      - airflow-init
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: airflow scheduler
+    container_name: airflow_scheduler
+    restart: always
+    depends_on:
+      - postgres
+      - airflow-init
+
+volumes:
+  postgres-data:
+```
+
+### 3. Dash Application for Visualization  
+The Dash app processes data from the MySQL database, extracts JSON attributes, and displays the processed data in various interactive graphs.  
+
+
+## Visualization Examples  
+- **Pressure Variation:** Average, min, and max pressure over time.  
+- **Temperature Profiles:** Trends in Mars temperature with highlighted extremes.  
+- **Wind Speed & Direction:** Analyze wind speed changes and directional distributions.  
+
+
 ## Contribution
 
 Contributions are welcome! If you have suggestions for improvements or want to report a bug, please create an issue or submit a pull request.
@@ -139,8 +262,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Thanks to NASA for providing the InSight weather data API.
 - Special thanks to the open-source community for the libraries used in this project.
 
-```
-
-### Notes
-- Ensure any utility classes or models not defined in the provided code (like `DataRepository`, `DataModel`, `DateUtil`) are mentioned clearly, or provide links to their definitions if they exist.
-- Adjust the Maven dependency versions based on your project requirements or latest available versions.
