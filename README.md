@@ -5,6 +5,8 @@
 
 The Mars Weather Data Project is a Java application that retrieves and stores weather data from NASA's InSight Mars weather API into a MongoDB database. The application fetches weather data, processes it, and allows retrieval of stored documents for further analysis. It is designed to facilitate the exploration of Martian weather conditions.
 
+![image](https://github.com/user-attachments/assets/035db1c4-0baa-45ef-a2b3-482318bb84c2)
+
 ## Features
 
 - Connects to a MongoDB database to store Mars weather data.
